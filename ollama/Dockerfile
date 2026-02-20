@@ -1,1 +1,1 @@
-FROM ollama/ollama
+FROM ollama/ollama:latest
