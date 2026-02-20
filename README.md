@@ -26,11 +26,27 @@ Web UI: `http://localhost:3000`
 
 First time opening the Web UI you will be prompted to create an admin account. Your account, chat history, and settings are all persistent across restarts.
 
+need to redirect claude code to talk to ollama running in the container
+
+```powershell
+# set permanently
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "ollama", "User")
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_BASE_URL", "http://localhost:11434", "User")
+# set for this session
+$env:ANTHROPIC_API_KEY = "ollama"
+$env:ANTHROPIC_BASE_URL = "http://localhost:11434"
+# set your model
+claude --model minimax-m2.5:cloud
+```
+
 ---
 
 ## Models
 
 ### Pull a model
+
+use the webui or use the following commands
+
 ```bash
 docker exec -it ollama ollama pull llama3.2
 docker exec -it ollama ollama pull mistral
