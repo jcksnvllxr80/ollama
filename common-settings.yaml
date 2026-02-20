@@ -1,0 +1,9 @@
+services:
+  common-settings:
+    restart: always
+    logging:
+      options:
+        max-size: 50m
+        max-file: "5"
+    networks:
+      - ollama_net

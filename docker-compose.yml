@@ -1,0 +1,47 @@
+services:
+  ollama:
+    build:
+      context: ollama
+    container_name: ollama
+    hostname: ollama
+    extends:
+      file: common-settings.yaml
+      service: common-settings
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  open-webui:
+    build:
+      context: open-webui
+    container_name: open-webui
+    hostname: open-webui
+    extends:
+      file: common-settings.yaml
+      service: common-settings
+    ports:
+      - "3000:8080"
+    volumes:
+      - open_webui_data:/app/backend/data
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+    depends_on:
+      - ollama
+
+networks:
+  ollama_net:
+    driver: bridge
+
+volumes:
+  ollama_data:
+  open_webui_data:
